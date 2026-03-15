@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Play My Strategy is an accessible AI-assisted gameplay system that lets users define strategy while AI handles perception and execution.">
+  <meta name="keywords" content="Play My Strategy, Accessibility, AI, Gemini, FastAPI, Cloud Run, Firestore, 2048">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play My Strategy: User-Defined Strategy, AI-Driven Execution</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png">
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <style>
+    .teaser-strip {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 10px;
+      flex-wrap: nowrap;
+      margin-top: 0.25rem;
+    }
+
+    .teaser-strip img {
+      height: 140px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media screen and (max-width: 1024px) {
+      .teaser-strip {
+        flex-wrap: wrap;
+      }
+
+      .teaser-strip img {
+        height: 120px;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .teaser-strip img {
+        height: 90px;
+      }
+    }
+  </style>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Play My Strategy: User-Defined Strategy, AI-Driven Execution</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Shahriar Nirjon</span>,
+            <span class="author-block">Zhenyu Wang</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">UNC Chapel Hill</span>
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block"><a href="https://youtu.be/aKyaR_10d7M" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-play-circle"></i></span><span>Video</span></a></span>
+              <span class="link-block"><a href="https://github.com/zywang96/play_my_strategy" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
+              <span class="link-block"><a class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-pen"></i></span><span>Blog</span></a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="teaser">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full has-text-centered">
+        <div class="teaser-strip">
+          <img src="./static/images/image1.png" alt="Teaser panel 1">
+          <img src="./static/images/image2.png" alt="Teaser panel 2">
+          <img src="./static/images/image3.png" alt="Teaser panel 3">
+          <img src="./static/images/image4.png" alt="Teaser panel 4">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="overview">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Overview</h2>
+        <div class="content has-text-justified">
+          <p>Every game, at its core, asks two essentials of the player: <strong>strategy</strong> and <strong>perception</strong>.</p>
+          <p>Strategy is the mind — knowing when to play aggressively, when to hold back, when to pursue a high-risk reward, and when to protect long-term position. It reflects the player’s judgment, style, and intent. Perception is the bridge between intention and action — the ability to interpret visual information quickly, respond to changes in real time, and translate decisions into precise physical input.</p>
+          <p>For many people, these two capacities work together almost effortlessly. But for millions of players living with Parkinson's disease, essential tremor, or low vision, perception can become the barrier that strategy alone cannot overcome. The mind remains sharp, the ideas are present, and the desire to play is intact — yet executing precise movements, reacting quickly, or interpreting visual information clearly may become difficult or even impossible. The joy of gaming, and the cognitive stimulation it can provide, becomes less accessible not because of how someone thinks, but because of how their body responds.</p>
+          <p>This project exists to tear that wall down.</p>
+          <p>The idea is simple: you bring the strategy, the AI brings the execution. You describe how you want to play — in plain language, in your own words, as detailed or as simple as you like. The system reads the game state, understands the current situation, applies your strategy, and acts on your behalf. You stay in control of the how. The machine handles the doing.</p>
+          <p>This is not about replacing human players with bots. It is about giving people whose hands shake, whose vision blurs, or whose fine motor skills have changed — the same ability to play their own game that everyone else takes for granted.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="example-2048">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Example: 2048</h2>
+        <div class="content has-text-justified">
+          <p>This repository demonstrates the idea using <strong>2048</strong>, a strategy-driven game with a clear 4×4 grid and a rich set of tactical choices. At the same time, it requires continuous visual interpretation and precise swipe inputs, which are exactly the barriers this system is designed to address.</p>
+          <p>In this system, a <strong>local game driver</strong> runs on the user’s computer, connects to an Android phone, and controls the device through <strong>ADB</strong>. A <strong>cloud backend</strong>, deployed on <strong>Google Cloud Run</strong>, receives the current game image or extracted state together with the user’s strategy instructions. The backend then invokes the <strong>Google Gemini API</strong> to interpret the situation and determine the most appropriate next move under the chosen strategy. <strong>Google Firestore</strong> is used to maintain lightweight cloud-side data such as session information, game progress, usage records, and move history. The local client executes the returned action in a continuous loop, allowing the user to observe the gameplay, revise the strategy at any time, and let the AI carry out the execution.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="architecture">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths has-text-centered">
+        <h2 class="title is-3 section-title">System Architecture</h2>
+        <img class="arch-image" src="./static/images/arch.png" alt="Play My Strategy system architecture">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="cloud-api">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Cloud API</h2>
+        <div class="content has-text-justified">
+          <p>The backend is a <strong>FastAPI</strong> service deployed on <strong>Google Cloud Run</strong> that uses <strong>Google Gemini</strong> to plan moves. It also includes a browser-based <code>/playground</code>, allowing users to quickly try the system without running local code or connecting to an Android phone.</p>
+          <p>This Cloud API gives you:</p>
+          <ul>
+            <li>Publicly accessible REST endpoints that the local client, or any compatible client, can call</li>
+            <li>A <code>/playground</code> web page where users can upload board images and try different strategies directly in the browser — no phone, no ADB, and no local setup required</li>
+            <li>Move planning powered by <strong>Google Gemini</strong>, exposed through a lightweight <strong>FastAPI</strong> service</li>
+            <li>Deployment on <strong>Google Cloud Run</strong>, so the backend can be hosted without managing your own server</li>
+            <li>Session tracking through <strong>Firestore</strong>, so each game run can be logged with its move history</li>
+            <li>A built-in rate-limiting option to help protect your API quota</li>
+            <li>A centralized backend that lets you update prompts, planning logic, and service behavior in one place without modifying the local client</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="local-driver">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Local Game Driver</h2>
+        <div class="content has-text-justified">
+          <p>The local client runs on your computer and serves as the execution side of the system. It connects to the Android device through <strong>ADB</strong>, captures the current game screen, extracts the relevant state, sends that information together with your strategy to the cloud API, receives the next action, and executes it automatically on the device.</p>
+          <p>The local game driver provides:</p>
+          <ul>
+            <li>A <strong>Gradio-based</strong> local interface for controlling the system from your browser</li>
+            <li>A live <strong>strategy input panel</strong> where you can express, refine, and update how you want the system to play</li>
+            <li>Optional <strong>voice input</strong> so you can provide your strategy in natural language without relying on typing</li>
+            <li>Direct <strong>ADB-based</strong> device control for screen capture and action execution</li>
+            <li>Continuous synchronization with the <strong>Cloud API</strong> for AI-driven move planning</li>
+            <li>A real-time <strong>status and move log</strong> for monitoring system behavior</li>
+            <li>A <strong>step mode</strong> for inspecting one action at a time</li>
+            <li>A fallback random action to keep the game moving if a Gemini decision causes the game to stall</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="acknowledgements">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Acknowledgements</h2>
+        <div class="content has-text-justified">
+          <p>We would like to thank Aidan Lok and George S Harris for their past collaboration on an earlier prototype of this project.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container is-max-desktop">
+    <div class="content has-text-centered">
+      <p>© 2026 UNC Chapel Hill</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
